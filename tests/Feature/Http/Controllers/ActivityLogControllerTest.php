@@ -60,8 +60,8 @@ class ActivityLogControllerTest extends TestCase
     public function store_saves_and_redirects(): void
     {
         $event_type = $this->faker->word;
-        $old_data = $this->faker->;
-        $new_data = $this->faker->;
+        $old_data = [];
+        $new_data = [];
 
         $response = $this->post(route('activity-log.store'), [
             'event_type' => $event_type,
@@ -131,8 +131,8 @@ class ActivityLogControllerTest extends TestCase
     {
         $activityLog = ActivityLog::factory()->create();
         $event_type = $this->faker->word;
-        $old_data = $this->faker->;
-        $new_data = $this->faker->;
+        $old_data = [];
+        $new_data = [];
 
         $response = $this->put(route('activity-log.update', $activityLog), [
             'event_type' => $event_type,
