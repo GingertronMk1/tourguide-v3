@@ -24,7 +24,7 @@ class RegionFactory extends Factory
             'name' => $this->faker->name,
             'description' => $this->faker->text,
             'notes' => $this->faker->text,
-            'system' => $this->faker->numberBetween(-10000, 10000),
+            'system' => $this->faker->randomNumber(),
         ];
     }
 }

@@ -60,8 +60,6 @@ class VenueControllerTest extends TestCase
     public function store_saves_and_redirects(): void
     {
         $name = $this->faker->name;
-        $description = $this->faker->text;
-        $notes = $this->faker->text;
         $street_address = $this->faker->text;
         $city = $this->faker->city;
         $maximum_stage_width = $this->faker->randomNumber();
@@ -74,8 +72,6 @@ class VenueControllerTest extends TestCase
 
         $response = $this->post(route('venue.store'), [
             'name' => $name,
-            'description' => $description,
-            'notes' => $notes,
             'street_address' => $street_address,
             'city' => $city,
             'maximum_stage_width' => $maximum_stage_width,
@@ -89,8 +85,6 @@ class VenueControllerTest extends TestCase
 
         $venues = Venue::query()
             ->where('name', $name)
-            ->where('description', $description)
-            ->where('notes', $notes)
             ->where('street_address', $street_address)
             ->where('city', $city)
             ->where('maximum_stage_width', $maximum_stage_width)
@@ -158,8 +152,6 @@ class VenueControllerTest extends TestCase
     {
         $venue = Venue::factory()->create();
         $name = $this->faker->name;
-        $description = $this->faker->text;
-        $notes = $this->faker->text;
         $street_address = $this->faker->text;
         $city = $this->faker->city;
         $maximum_stage_width = $this->faker->randomNumber();
@@ -172,8 +164,6 @@ class VenueControllerTest extends TestCase
 
         $response = $this->put(route('venue.update', $venue), [
             'name' => $name,
-            'description' => $description,
-            'notes' => $notes,
             'street_address' => $street_address,
             'city' => $city,
             'maximum_stage_width' => $maximum_stage_width,
@@ -191,8 +181,6 @@ class VenueControllerTest extends TestCase
         $response->assertSessionHas('venue.id', $venue->id);
 
         $this->assertEquals($name, $venue->name);
-        $this->assertEquals($description, $venue->description);
-        $this->assertEquals($notes, $venue->notes);
         $this->assertEquals($street_address, $venue->street_address);
         $this->assertEquals($city, $venue->city);
         $this->assertEquals($maximum_stage_width, $venue->maximum_stage_width);

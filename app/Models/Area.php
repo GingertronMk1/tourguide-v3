@@ -30,6 +30,7 @@ class Area extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'system' => 'integer',
     ];
 
     public function regions(): HasMany

@@ -44,3 +44,18 @@ Route::resource('area', App\Http\Controllers\AreaController::class);
 Route::resource('region', App\Http\Controllers\RegionController::class);
 
 Route::resource('venue', App\Http\Controllers\VenueController::class);
+
+
+Route::resource('activity-log', App\Http\Controllers\ActivityLogController::class);
+
+Route::resource('deal-type', App\Http\Controllers\DealTypeController::class);
+
+Route::resource('access-equipment', App\Http\Controllers\AccessEquipmentController::class);
+
+Route::resource('venue-type', App\Http\Controllers\VenueTypeController::class);
+
+Route::resource('area', App\Http\Controllers\AreaController::class);
+
+Route::resource('region', App\Http\Controllers\RegionController::class);
+
+Route::resource('venue', App\Http\Controllers\VenueController::class);

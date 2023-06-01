@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('areas', function (Blueprint $table) {
+        Schema::create('regions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
-            $table->text('notes');
-            $table->integer('system');
+            $table->text('description')->nullable();
+            $table->text('notes')->nullable();
+            $table->unsignedInteger('system')->nullable()->unique();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('areas');
+        Schema::dropIfExists('regions');
     }
 };

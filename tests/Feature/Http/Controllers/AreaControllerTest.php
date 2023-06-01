@@ -60,22 +60,13 @@ class AreaControllerTest extends TestCase
     public function store_saves_and_redirects(): void
     {
         $name = $this->faker->name;
-        $description = $this->faker->text;
-        $notes = $this->faker->text;
-        $system = $this->faker->numberBetween(-10000, 10000);
 
         $response = $this->post(route('area.store'), [
             'name' => $name,
-            'description' => $description,
-            'notes' => $notes,
-            'system' => $system,
         ]);
 
         $areas = Area::query()
             ->where('name', $name)
-            ->where('description', $description)
-            ->where('notes', $notes)
-            ->where('system', $system)
             ->get();
         $this->assertCount(1, $areas);
         $area = $areas->first();
@@ -134,15 +125,9 @@ class AreaControllerTest extends TestCase
     {
         $area = Area::factory()->create();
         $name = $this->faker->name;
-        $description = $this->faker->text;
-        $notes = $this->faker->text;
-        $system = $this->faker->numberBetween(-10000, 10000);
 
         $response = $this->put(route('area.update', $area), [
             'name' => $name,
-            'description' => $description,
-            'notes' => $notes,
-            'system' => $system,
         ]);
 
         $area->refresh();
@@ -151,9 +136,6 @@ class AreaControllerTest extends TestCase
         $response->assertSessionHas('area.id', $area->id);
 
         $this->assertEquals($name, $area->name);
-        $this->assertEquals($description, $area->description);
-        $this->assertEquals($notes, $area->notes);
-        $this->assertEquals($system, $area->system);
     }
 
 

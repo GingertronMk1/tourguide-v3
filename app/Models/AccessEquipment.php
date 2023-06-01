@@ -30,6 +30,7 @@ class AccessEquipment extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'system' => 'integer',
     ];
 
     public function venues(): BelongsToMany

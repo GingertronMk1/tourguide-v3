@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('venues', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
-            $table->text('notes');
+            $table->text('description')->nullable();
+            $table->text('notes')->nullable();
             $table->text('street_address');
             $table->string('city');
             $table->unsignedBigInteger('maximum_stage_width');

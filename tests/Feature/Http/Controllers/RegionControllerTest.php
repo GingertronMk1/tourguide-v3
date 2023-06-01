@@ -60,22 +60,13 @@ class RegionControllerTest extends TestCase
     public function store_saves_and_redirects(): void
     {
         $name = $this->faker->name;
-        $description = $this->faker->text;
-        $notes = $this->faker->text;
-        $system = $this->faker->numberBetween(-10000, 10000);
 
         $response = $this->post(route('region.store'), [
             'name' => $name,
-            'description' => $description,
-            'notes' => $notes,
-            'system' => $system,
         ]);
 
         $regions = Region::query()
             ->where('name', $name)
-            ->where('description', $description)
-            ->where('notes', $notes)
-            ->where('system', $system)
             ->get();
         $this->assertCount(1, $regions);
         $region = $regions->first();
@@ -134,15 +125,9 @@ class RegionControllerTest extends TestCase
     {
         $region = Region::factory()->create();
         $name = $this->faker->name;
-        $description = $this->faker->text;
-        $notes = $this->faker->text;
-        $system = $this->faker->numberBetween(-10000, 10000);
 
         $response = $this->put(route('region.update', $region), [
             'name' => $name,
-            'description' => $description,
-            'notes' => $notes,
-            'system' => $system,
         ]);
 
         $region->refresh();
@@ -151,9 +136,6 @@ class RegionControllerTest extends TestCase
         $response->assertSessionHas('region.id', $region->id);
 
         $this->assertEquals($name, $region->name);
-        $this->assertEquals($description, $region->description);
-        $this->assertEquals($notes, $region->notes);
-        $this->assertEquals($system, $region->system);
     }
 
 

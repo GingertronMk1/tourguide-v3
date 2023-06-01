@@ -30,6 +30,7 @@ class VenueType extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'system' => 'integer',
     ];
 
     public function venues(): HasMany

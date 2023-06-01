@@ -60,22 +60,13 @@ class AccessEquipmentControllerTest extends TestCase
     public function store_saves_and_redirects(): void
     {
         $name = $this->faker->name;
-        $description = $this->faker->text;
-        $notes = $this->faker->text;
-        $system = $this->faker->numberBetween(-10000, 10000);
 
         $response = $this->post(route('access-equipment.store'), [
             'name' => $name,
-            'description' => $description,
-            'notes' => $notes,
-            'system' => $system,
         ]);
 
         $accessEquipments = AccessEquipment::query()
             ->where('name', $name)
-            ->where('description', $description)
-            ->where('notes', $notes)
-            ->where('system', $system)
             ->get();
         $this->assertCount(1, $accessEquipments);
         $accessEquipment = $accessEquipments->first();
@@ -134,15 +125,9 @@ class AccessEquipmentControllerTest extends TestCase
     {
         $accessEquipment = AccessEquipment::factory()->create();
         $name = $this->faker->name;
-        $description = $this->faker->text;
-        $notes = $this->faker->text;
-        $system = $this->faker->numberBetween(-10000, 10000);
 
         $response = $this->put(route('access-equipment.update', $accessEquipment), [
             'name' => $name,
-            'description' => $description,
-            'notes' => $notes,
-            'system' => $system,
         ]);
 
         $accessEquipment->refresh();
@@ -151,9 +136,6 @@ class AccessEquipmentControllerTest extends TestCase
         $response->assertSessionHas('accessEquipment.id', $accessEquipment->id);
 
         $this->assertEquals($name, $accessEquipment->name);
-        $this->assertEquals($description, $accessEquipment->description);
-        $this->assertEquals($notes, $accessEquipment->notes);
-        $this->assertEquals($system, $accessEquipment->system);
     }
 
 

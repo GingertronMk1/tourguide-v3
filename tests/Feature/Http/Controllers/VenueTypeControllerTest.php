@@ -60,22 +60,13 @@ class VenueTypeControllerTest extends TestCase
     public function store_saves_and_redirects(): void
     {
         $name = $this->faker->name;
-        $description = $this->faker->text;
-        $notes = $this->faker->text;
-        $system = $this->faker->numberBetween(-10000, 10000);
 
         $response = $this->post(route('venue-type.store'), [
             'name' => $name,
-            'description' => $description,
-            'notes' => $notes,
-            'system' => $system,
         ]);
 
         $venueTypes = VenueType::query()
             ->where('name', $name)
-            ->where('description', $description)
-            ->where('notes', $notes)
-            ->where('system', $system)
             ->get();
         $this->assertCount(1, $venueTypes);
         $venueType = $venueTypes->first();
@@ -134,15 +125,9 @@ class VenueTypeControllerTest extends TestCase
     {
         $venueType = VenueType::factory()->create();
         $name = $this->faker->name;
-        $description = $this->faker->text;
-        $notes = $this->faker->text;
-        $system = $this->faker->numberBetween(-10000, 10000);
 
         $response = $this->put(route('venue-type.update', $venueType), [
             'name' => $name,
-            'description' => $description,
-            'notes' => $notes,
-            'system' => $system,
         ]);
 
         $venueType->refresh();
@@ -151,9 +136,6 @@ class VenueTypeControllerTest extends TestCase
         $response->assertSessionHas('venueType.id', $venueType->id);
 
         $this->assertEquals($name, $venueType->name);
-        $this->assertEquals($description, $venueType->description);
-        $this->assertEquals($notes, $venueType->notes);
-        $this->assertEquals($system, $venueType->system);
     }
 
 
