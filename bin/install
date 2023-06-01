@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+docker-compose build
+
+echo "NPM installing"
+docker-compose run --rm node npm install
+
+echo "Composer installing"
+docker-compose run --rm app composer install%                                                                                                                                     
+
+docker-compose up -d
