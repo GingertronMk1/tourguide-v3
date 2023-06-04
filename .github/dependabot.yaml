@@ -1,0 +1,17 @@
+version: 2
+updates:
+    -   package-ecosystem: composer
+        directory: "/"
+        registries: "*"
+        schedule:
+            interval: daily
+        open-pull-requests-limit: 10
+        commit-message:
+            prefix: "[DEPS]"
+    -   package-ecosystem: npm
+        directory: "/"
+        schedule:
+            interval: daily
+        open-pull-requests-limit: 10
+        commit-message:
+            prefix: "[DEPS]"
