@@ -29,7 +29,7 @@ class DealTypeController extends Controller
 
         $request->session()->flash('dealType.id', $dealType->id);
 
-        return redirect()->route('dealType.index');
+        return redirect()->route('deal-type.index');
     }
 
     public function show(Request $request, DealType $dealType): View
@@ -48,13 +48,13 @@ class DealTypeController extends Controller
 
         $request->session()->flash('dealType.id', $dealType->id);
 
-        return redirect()->route('dealType.index');
+        return redirect()->route('deal-type.index');
     }
 
     public function destroy(Request $request, DealType $dealType): RedirectResponse
     {
         $dealType->delete();
 
-        return redirect()->route('dealType.index');
+        return redirect()->route('deal-type.index');
     }
 }

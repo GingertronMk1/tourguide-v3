@@ -71,7 +71,7 @@ class DealTypeControllerTest extends TestCase
         $this->assertCount(1, $dealTypes);
         $dealType = $dealTypes->first();
 
-        $response->assertRedirect(route('dealType.index'));
+        $response->assertRedirect(route('deal-type.index'));
         $response->assertSessionHas('dealType.id', $dealType->id);
     }
 
@@ -132,7 +132,7 @@ class DealTypeControllerTest extends TestCase
 
         $dealType->refresh();
 
-        $response->assertRedirect(route('dealType.index'));
+        $response->assertRedirect(route('deal-type.index'));
         $response->assertSessionHas('dealType.id', $dealType->id);
 
         $this->assertEquals($name, $dealType->name);
@@ -148,7 +148,7 @@ class DealTypeControllerTest extends TestCase
 
         $response = $this->delete(route('deal-type.destroy', $dealType));
 
-        $response->assertRedirect(route('dealType.index'));
+        $response->assertRedirect(route('deal-type.index'));
 
         $this->assertSoftDeleted($dealType);
     }
