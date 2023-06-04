@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +12,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Region extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +25,7 @@ class Region extends Model
         'description',
         'notes',
         'system',
+        'area_id',
     ];
 
     /**
@@ -32,6 +36,7 @@ class Region extends Model
     protected $casts = [
         'id' => 'integer',
         'system' => 'integer',
+        'area_id' => 'integer',
     ];
 
     public function area(): BelongsTo

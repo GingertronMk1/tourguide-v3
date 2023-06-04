@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,6 +22,7 @@ class ActivityLog extends Model
         'event_type',
         'old_data',
         'new_data',
+        'user_id',
     ];
 
     /**
@@ -31,6 +34,7 @@ class ActivityLog extends Model
         'id' => 'integer',
         'old_data' => 'array',
         'new_data' => 'array',
+        'user_id' => 'integer',
     ];
 
     public function user(): BelongsTo

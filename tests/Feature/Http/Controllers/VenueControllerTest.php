@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\Region;
 use App\Models\Venue;
+use App\Models\VenueType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -13,12 +17,11 @@ use Tests\TestCase;
  */
 class VenueControllerTest extends TestCase
 {
-    use AdditionalAssertions, RefreshDatabase, WithFaker;
+    use AdditionalAssertions;
+    use RefreshDatabase;
+    use WithFaker;
 
-    /**
-     * @test
-     */
-    public function index_displays_view(): void
+    public function testIndexDisplaysView(): void
     {
         $venues = Venue::factory()->count(3)->create();
 
@@ -29,11 +32,7 @@ class VenueControllerTest extends TestCase
         $response->assertViewHas('venues');
     }
 
-
-    /**
-     * @test
-     */
-    public function create_displays_view(): void
+    public function testCreateDisplaysView(): void
     {
         $response = $this->get(route('venue.create'));
 
@@ -41,11 +40,7 @@ class VenueControllerTest extends TestCase
         $response->assertViewIs('venue.create');
     }
 
-
-    /**
-     * @test
-     */
-    public function store_uses_form_request_validation(): void
+    public function testStoreUsesFormRequestValidation(): void
     {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\VenueController::class,
@@ -54,24 +49,27 @@ class VenueControllerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function store_saves_and_redirects(): void
+    public function testStoreSavesAndRedirects(): void
     {
         $name = $this->faker->name;
+        $description = $this->faker->paragraph;
+        $notes = $this->faker->paragraph;
         $street_address = $this->faker->text;
         $city = $this->faker->city;
-        $maximum_stage_width = $this->faker->randomNumber();
-        $maximum_stage_depth = $this->faker->randomNumber();
-        $maximum_stage_height = $this->faker->randomNumber();
-        $maximum_seats = $this->faker->randomNumber();
-        $maximum_wheelchair_seats = $this->faker->randomNumber();
-        $number_of_dressing_rooms = $this->faker->randomNumber();
+        $maximum_stage_width = $this->faker->numberBetween(0, PHP_INT_MAX);
+        $maximum_stage_depth = $this->faker->numberBetween(0, PHP_INT_MAX);
+        $maximum_stage_height = $this->faker->numberBetween(0, PHP_INT_MAX);
+        $maximum_seats = $this->faker->numberBetween(0, PHP_INT_MAX);
+        $maximum_wheelchair_seats = $this->faker->numberBetween(0, PHP_INT_MAX);
+        $number_of_dressing_rooms = $this->faker->numberBetween(0, PHP_INT_MAX);
         $backstage_wheelchair_access = $this->faker->boolean;
+        $region = Region::factory()->create();
+        $venue_type = VenueType::factory()->create();
 
         $response = $this->post(route('venue.store'), [
             'name' => $name,
+            'description' => $description,
+            'notes' => $notes,
             'street_address' => $street_address,
             'city' => $city,
             'maximum_stage_width' => $maximum_stage_width,
@@ -81,10 +79,14 @@ class VenueControllerTest extends TestCase
             'maximum_wheelchair_seats' => $maximum_wheelchair_seats,
             'number_of_dressing_rooms' => $number_of_dressing_rooms,
             'backstage_wheelchair_access' => $backstage_wheelchair_access,
+            'region_id' => $region->id,
+            'venue_type_id' => $venue_type->id,
         ]);
 
         $venues = Venue::query()
             ->where('name', $name)
+            ->where('description', $description)
+            ->where('notes', $notes)
             ->where('street_address', $street_address)
             ->where('city', $city)
             ->where('maximum_stage_width', $maximum_stage_width)
@@ -94,6 +96,8 @@ class VenueControllerTest extends TestCase
             ->where('maximum_wheelchair_seats', $maximum_wheelchair_seats)
             ->where('number_of_dressing_rooms', $number_of_dressing_rooms)
             ->where('backstage_wheelchair_access', $backstage_wheelchair_access)
+            ->where('region_id', $region->id)
+            ->where('venue_type_id', $venue_type->id)
             ->get();
         $this->assertCount(1, $venues);
         $venue = $venues->first();
@@ -102,11 +106,7 @@ class VenueControllerTest extends TestCase
         $response->assertSessionHas('venue.id', $venue->id);
     }
 
-
-    /**
-     * @test
-     */
-    public function show_displays_view(): void
+    public function testShowDisplaysView(): void
     {
         $venue = Venue::factory()->create();
 
@@ -117,11 +117,7 @@ class VenueControllerTest extends TestCase
         $response->assertViewHas('venue');
     }
 
-
-    /**
-     * @test
-     */
-    public function edit_displays_view(): void
+    public function testEditDisplaysView(): void
     {
         $venue = Venue::factory()->create();
 
@@ -132,11 +128,7 @@ class VenueControllerTest extends TestCase
         $response->assertViewHas('venue');
     }
 
-
-    /**
-     * @test
-     */
-    public function update_uses_form_request_validation(): void
+    public function testUpdateUsesFormRequestValidation(): void
     {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\VenueController::class,
@@ -145,25 +137,28 @@ class VenueControllerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function update_redirects(): void
+    public function testUpdateRedirects(): void
     {
         $venue = Venue::factory()->create();
         $name = $this->faker->name;
+        $description = $this->faker->paragraph;
+        $notes = $this->faker->paragraph;
         $street_address = $this->faker->text;
         $city = $this->faker->city;
-        $maximum_stage_width = $this->faker->randomNumber();
-        $maximum_stage_depth = $this->faker->randomNumber();
-        $maximum_stage_height = $this->faker->randomNumber();
-        $maximum_seats = $this->faker->randomNumber();
-        $maximum_wheelchair_seats = $this->faker->randomNumber();
-        $number_of_dressing_rooms = $this->faker->randomNumber();
+        $maximum_stage_width = $this->faker->numberBetween(0, PHP_INT_MAX);
+        $maximum_stage_depth = $this->faker->numberBetween(0, PHP_INT_MAX);
+        $maximum_stage_height = $this->faker->numberBetween(0, PHP_INT_MAX);
+        $maximum_seats = $this->faker->numberBetween(0, PHP_INT_MAX);
+        $maximum_wheelchair_seats = $this->faker->numberBetween(0, PHP_INT_MAX);
+        $number_of_dressing_rooms = $this->faker->numberBetween(0, PHP_INT_MAX);
         $backstage_wheelchair_access = $this->faker->boolean;
+        $region = Region::factory()->create();
+        $venue_type = VenueType::factory()->create();
 
         $response = $this->put(route('venue.update', $venue), [
             'name' => $name,
+            'description' => $description,
+            'notes' => $notes,
             'street_address' => $street_address,
             'city' => $city,
             'maximum_stage_width' => $maximum_stage_width,
@@ -173,6 +168,8 @@ class VenueControllerTest extends TestCase
             'maximum_wheelchair_seats' => $maximum_wheelchair_seats,
             'number_of_dressing_rooms' => $number_of_dressing_rooms,
             'backstage_wheelchair_access' => $backstage_wheelchair_access,
+            'region_id' => $region->id,
+            'venue_type_id' => $venue_type->id,
         ]);
 
         $venue->refresh();
@@ -181,6 +178,8 @@ class VenueControllerTest extends TestCase
         $response->assertSessionHas('venue.id', $venue->id);
 
         $this->assertEquals($name, $venue->name);
+        $this->assertEquals($description, $venue->description);
+        $this->assertEquals($notes, $venue->notes);
         $this->assertEquals($street_address, $venue->street_address);
         $this->assertEquals($city, $venue->city);
         $this->assertEquals($maximum_stage_width, $venue->maximum_stage_width);
@@ -190,13 +189,11 @@ class VenueControllerTest extends TestCase
         $this->assertEquals($maximum_wheelchair_seats, $venue->maximum_wheelchair_seats);
         $this->assertEquals($number_of_dressing_rooms, $venue->number_of_dressing_rooms);
         $this->assertEquals($backstage_wheelchair_access, $venue->backstage_wheelchair_access);
+        $this->assertEquals($region->id, $venue->region_id);
+        $this->assertEquals($venue_type->id, $venue->venue_type_id);
     }
 
-
-    /**
-     * @test
-     */
-    public function destroy_deletes_and_redirects(): void
+    public function testDestroyDeletesAndRedirects(): void
     {
         $venue = Venue::factory()->create();
 

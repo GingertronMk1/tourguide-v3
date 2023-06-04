@@ -24,7 +24,6 @@ class VenueTypeFactory extends Factory
             'name' => $this->faker->name,
             'description' => $this->faker->text,
             'notes' => $this->faker->text,
-            'system' => $this->faker->randomNumber(),
-        ];
+                    ];
     }
 }

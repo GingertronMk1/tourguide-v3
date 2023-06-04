@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('access_equipment', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+
+        Schema::create('venue_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
@@ -20,6 +22,8 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('access_equipment');
+        Schema::dropIfExists('venue_types');
     }
 };

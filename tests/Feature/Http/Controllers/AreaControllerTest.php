@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Area;
@@ -13,12 +15,11 @@ use Tests\TestCase;
  */
 class AreaControllerTest extends TestCase
 {
-    use AdditionalAssertions, RefreshDatabase, WithFaker;
+    use AdditionalAssertions;
+    use RefreshDatabase;
+    use WithFaker;
 
-    /**
-     * @test
-     */
-    public function index_displays_view(): void
+    public function testIndexDisplaysView(): void
     {
         $areas = Area::factory()->count(3)->create();
 
@@ -29,11 +30,7 @@ class AreaControllerTest extends TestCase
         $response->assertViewHas('areas');
     }
 
-
-    /**
-     * @test
-     */
-    public function create_displays_view(): void
+    public function testCreateDisplaysView(): void
     {
         $response = $this->get(route('area.create'));
 
@@ -41,11 +38,7 @@ class AreaControllerTest extends TestCase
         $response->assertViewIs('area.create');
     }
 
-
-    /**
-     * @test
-     */
-    public function store_uses_form_request_validation(): void
+    public function testStoreUsesFormRequestValidation(): void
     {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\AreaController::class,
@@ -54,15 +47,15 @@ class AreaControllerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function store_saves_and_redirects(): void
+    public function testStoreSavesAndRedirects(): void
     {
         $name = $this->faker->name;
-
+        $description = $this->faker->paragraph;
+        $notes = $this->faker->paragraph;
         $response = $this->post(route('area.store'), [
             'name' => $name,
+            'description' => $description,
+            'notes' => $notes,
         ]);
 
         $areas = Area::query()
@@ -75,11 +68,7 @@ class AreaControllerTest extends TestCase
         $response->assertSessionHas('area.id', $area->id);
     }
 
-
-    /**
-     * @test
-     */
-    public function show_displays_view(): void
+    public function testShowDisplaysView(): void
     {
         $area = Area::factory()->create();
 
@@ -90,11 +79,7 @@ class AreaControllerTest extends TestCase
         $response->assertViewHas('area');
     }
 
-
-    /**
-     * @test
-     */
-    public function edit_displays_view(): void
+    public function testEditDisplaysView(): void
     {
         $area = Area::factory()->create();
 
@@ -105,11 +90,7 @@ class AreaControllerTest extends TestCase
         $response->assertViewHas('area');
     }
 
-
-    /**
-     * @test
-     */
-    public function update_uses_form_request_validation(): void
+    public function testUpdateUsesFormRequestValidation(): void
     {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\AreaController::class,
@@ -118,17 +99,17 @@ class AreaControllerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function update_redirects(): void
+    public function testUpdateRedirects(): void
     {
         $area = Area::factory()->create();
         $name = $this->faker->name;
-
-        $response = $this->put(route('area.update', $area), [
-            'name' => $name,
-        ]);
+$description = $this->faker->paragraph;
+$notes = $this->faker->paragraph;
+$response = $this->put(route('area.update', $area), [
+    'name' => $name,
+    'description' => $description,
+    'notes' => $notes,
+]);
 
         $area->refresh();
 
@@ -138,11 +119,7 @@ class AreaControllerTest extends TestCase
         $this->assertEquals($name, $area->name);
     }
 
-
-    /**
-     * @test
-     */
-    public function destroy_deletes_and_redirects(): void
+    public function testDestroyDeletesAndRedirects(): void
     {
         $area = Area::factory()->create();
 

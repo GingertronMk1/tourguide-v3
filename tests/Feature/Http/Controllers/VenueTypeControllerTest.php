@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\VenueType;
@@ -13,12 +15,11 @@ use Tests\TestCase;
  */
 class VenueTypeControllerTest extends TestCase
 {
-    use AdditionalAssertions, RefreshDatabase, WithFaker;
+    use AdditionalAssertions;
+    use RefreshDatabase;
+    use WithFaker;
 
-    /**
-     * @test
-     */
-    public function index_displays_view(): void
+    public function testIndexDisplaysView(): void
     {
         $venueTypes = VenueType::factory()->count(3)->create();
 
@@ -29,11 +30,7 @@ class VenueTypeControllerTest extends TestCase
         $response->assertViewHas('venueTypes');
     }
 
-
-    /**
-     * @test
-     */
-    public function create_displays_view(): void
+    public function testCreateDisplaysView(): void
     {
         $response = $this->get(route('venue-type.create'));
 
@@ -41,11 +38,7 @@ class VenueTypeControllerTest extends TestCase
         $response->assertViewIs('venueType.create');
     }
 
-
-    /**
-     * @test
-     */
-    public function store_uses_form_request_validation(): void
+    public function testStoreUsesFormRequestValidation(): void
     {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\VenueTypeController::class,
@@ -54,15 +47,16 @@ class VenueTypeControllerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function store_saves_and_redirects(): void
+    public function testStoreSavesAndRedirects(): void
     {
         $name = $this->faker->name;
+        $description = $this->faker->paragraph;
+        $notes = $this->faker->paragraph;
 
         $response = $this->post(route('venue-type.store'), [
             'name' => $name,
+            'description' => $description,
+            'notes' => $notes,
         ]);
 
         $venueTypes = VenueType::query()
@@ -75,11 +69,7 @@ class VenueTypeControllerTest extends TestCase
         $response->assertSessionHas('venueType.id', $venueType->id);
     }
 
-
-    /**
-     * @test
-     */
-    public function show_displays_view(): void
+    public function testShowDisplaysView(): void
     {
         $venueType = VenueType::factory()->create();
 
@@ -90,11 +80,7 @@ class VenueTypeControllerTest extends TestCase
         $response->assertViewHas('venueType');
     }
 
-
-    /**
-     * @test
-     */
-    public function edit_displays_view(): void
+    public function testEditDisplaysView(): void
     {
         $venueType = VenueType::factory()->create();
 
@@ -105,11 +91,7 @@ class VenueTypeControllerTest extends TestCase
         $response->assertViewHas('venueType');
     }
 
-
-    /**
-     * @test
-     */
-    public function update_uses_form_request_validation(): void
+    public function testUpdateUsesFormRequestValidation(): void
     {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\VenueTypeController::class,
@@ -118,16 +100,17 @@ class VenueTypeControllerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function update_redirects(): void
+    public function testUpdateRedirects(): void
     {
         $venueType = VenueType::factory()->create();
         $name = $this->faker->name;
+        $description = $this->faker->paragraph;
+        $notes = $this->faker->paragraph;
 
         $response = $this->put(route('venue-type.update', $venueType), [
             'name' => $name,
+            'description' => $description,
+            'notes' => $notes,
         ]);
 
         $venueType->refresh();
@@ -138,11 +121,7 @@ class VenueTypeControllerTest extends TestCase
         $this->assertEquals($name, $venueType->name);
     }
 
-
-    /**
-     * @test
-     */
-    public function destroy_deletes_and_redirects(): void
+    public function testDestroyDeletesAndRedirects(): void
     {
         $venueType = VenueType::factory()->create();
 

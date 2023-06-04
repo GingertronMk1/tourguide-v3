@@ -1,7 +1,8 @@
 <?php
 
-return [
+declare(strict_types=1);
 
+return [
     /*
     |--------------------------------------------------------------------------
     | Default Mailer
@@ -121,5 +122,4 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
-
 ];

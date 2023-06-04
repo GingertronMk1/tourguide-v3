@@ -11,6 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('deal_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -20,6 +22,8 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

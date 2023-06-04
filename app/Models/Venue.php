@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,6 +31,8 @@ class Venue extends Model
         'maximum_wheelchair_seats',
         'number_of_dressing_rooms',
         'backstage_wheelchair_access',
+        'region_id',
+        'venue_type_id',
     ];
 
     /**
@@ -45,6 +49,8 @@ class Venue extends Model
         'maximum_wheelchair_seats' => 'integer',
         'number_of_dressing_rooms' => 'integer',
         'backstage_wheelchair_access' => 'boolean',
+        'region_id' => 'integer',
+        'venue_type_id' => 'integer',
     ];
 
     public function region(): BelongsTo

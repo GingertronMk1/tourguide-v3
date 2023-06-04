@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\Area;
 use App\Models\Region;
 
 class RegionFactory extends Factory
@@ -24,7 +25,7 @@ class RegionFactory extends Factory
             'name' => $this->faker->name,
             'description' => $this->faker->text,
             'notes' => $this->faker->text,
-            'system' => $this->faker->randomNumber(),
+            'area_id' => Area::factory(),
         ];
     }
 }

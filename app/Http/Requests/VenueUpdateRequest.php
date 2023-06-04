@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -32,6 +34,8 @@ class VenueUpdateRequest extends FormRequest
             'maximum_wheelchair_seats' => ['required', 'integer', 'gt:0'],
             'number_of_dressing_rooms' => ['required', 'integer', 'gt:0'],
             'backstage_wheelchair_access' => ['required'],
+            'region_id' => ['integer'],
+            'venue_type_id' => ['integer'],
         ];
     }
 }

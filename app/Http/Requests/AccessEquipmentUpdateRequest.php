@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -23,7 +25,7 @@ class AccessEquipmentUpdateRequest extends FormRequest
             'name' => ['required', 'string'],
             'description' => ['required', 'string'],
             'notes' => ['required', 'string'],
-            'system' => ['required', 'integer'],
+            'system' => ['integer'],
         ];
     }
 }

@@ -11,6 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('venues', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -25,8 +27,12 @@ return new class extends Migration
             $table->unsignedBigInteger('maximum_wheelchair_seats');
             $table->unsignedBigInteger('number_of_dressing_rooms');
             $table->boolean('backstage_wheelchair_access');
+            $table->foreignId('region_id')->constrained();
+            $table->foreignId('venue_type_id')->constrained();
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\AccessEquipment;
@@ -13,12 +15,11 @@ use Tests\TestCase;
  */
 class AccessEquipmentControllerTest extends TestCase
 {
-    use AdditionalAssertions, RefreshDatabase, WithFaker;
+    use AdditionalAssertions;
+    use RefreshDatabase;
+    use WithFaker;
 
-    /**
-     * @test
-     */
-    public function index_displays_view(): void
+    public function testIndexDisplaysView(): void
     {
         $accessEquipments = AccessEquipment::factory()->count(3)->create();
 
@@ -29,11 +30,7 @@ class AccessEquipmentControllerTest extends TestCase
         $response->assertViewHas('accessEquipments');
     }
 
-
-    /**
-     * @test
-     */
-    public function create_displays_view(): void
+    public function testCreateDisplaysView(): void
     {
         $response = $this->get(route('access-equipment.create'));
 
@@ -41,11 +38,7 @@ class AccessEquipmentControllerTest extends TestCase
         $response->assertViewIs('accessEquipment.create');
     }
 
-
-    /**
-     * @test
-     */
-    public function store_uses_form_request_validation(): void
+    public function testStoreUsesFormRequestValidation(): void
     {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\AccessEquipmentController::class,
@@ -54,15 +47,16 @@ class AccessEquipmentControllerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function store_saves_and_redirects(): void
+    public function testStoreSavesAndRedirects(): void
     {
         $name = $this->faker->name;
+        $description = $this->faker->paragraph;
+        $notes = $this->faker->paragraph;
 
         $response = $this->post(route('access-equipment.store'), [
             'name' => $name,
+            'description' => $description,
+            'notes' => $notes,
         ]);
 
         $accessEquipments = AccessEquipment::query()
@@ -75,11 +69,7 @@ class AccessEquipmentControllerTest extends TestCase
         $response->assertSessionHas('accessEquipment.id', $accessEquipment->id);
     }
 
-
-    /**
-     * @test
-     */
-    public function show_displays_view(): void
+    public function testShowDisplaysView(): void
     {
         $accessEquipment = AccessEquipment::factory()->create();
 
@@ -90,11 +80,7 @@ class AccessEquipmentControllerTest extends TestCase
         $response->assertViewHas('accessEquipment');
     }
 
-
-    /**
-     * @test
-     */
-    public function edit_displays_view(): void
+    public function testEditDisplaysView(): void
     {
         $accessEquipment = AccessEquipment::factory()->create();
 
@@ -105,11 +91,7 @@ class AccessEquipmentControllerTest extends TestCase
         $response->assertViewHas('accessEquipment');
     }
 
-
-    /**
-     * @test
-     */
-    public function update_uses_form_request_validation(): void
+    public function testUpdateUsesFormRequestValidation(): void
     {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\AccessEquipmentController::class,
@@ -118,16 +100,17 @@ class AccessEquipmentControllerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function update_redirects(): void
+    public function testUpdateRedirects(): void
     {
         $accessEquipment = AccessEquipment::factory()->create();
         $name = $this->faker->name;
+        $description = $this->faker->paragraph;
+        $notes = $this->faker->paragraph;
 
         $response = $this->put(route('access-equipment.update', $accessEquipment), [
             'name' => $name,
+            'description' => $description,
+            'notes' => $notes,
         ]);
 
         $accessEquipment->refresh();
@@ -138,11 +121,7 @@ class AccessEquipmentControllerTest extends TestCase
         $this->assertEquals($name, $accessEquipment->name);
     }
 
-
-    /**
-     * @test
-     */
-    public function destroy_deletes_and_redirects(): void
+    public function testDestroyDeletesAndRedirects(): void
     {
         $accessEquipment = AccessEquipment::factory()->create();
 

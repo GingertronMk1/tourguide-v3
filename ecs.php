@@ -17,19 +17,9 @@ return function (ECSConfig $ecsConfig): void {
         __DIR__ . '/tests',
     ]);
 
-    // this way you add a single rule
-    $ecsConfig->rules([
-        NoUnusedImportsFixer::class,
-    ]);
-
     // this way you can add sets - group of rules
     $ecsConfig->sets([
-        // run and fix, one by one
-        // SetList::SPACES,
-        // SetList::ARRAY,
-        // SetList::DOCBLOCK,
-        // SetList::NAMESPACES,
-        // SetList::COMMENTS,
-        // SetList::PSR_12,
+        SetList::COMMON,
+        SetList::LARAVEL,
     ]);
 };

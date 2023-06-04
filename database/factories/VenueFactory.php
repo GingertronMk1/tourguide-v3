@@ -4,7 +4,9 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\Region;
 use App\Models\Venue;
+use App\Models\VenueType;
 
 class VenueFactory extends Factory
 {
@@ -33,6 +35,8 @@ class VenueFactory extends Factory
             'maximum_wheelchair_seats' => $this->faker->randomNumber(),
             'number_of_dressing_rooms' => $this->faker->randomNumber(),
             'backstage_wheelchair_access' => $this->faker->boolean,
+            'region_id' => Region::factory(),
+            'venue_type_id' => VenueType::factory(),
         ];
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
-return [
+declare(strict_types=1);
 
+return [
     /*
     |--------------------------------------------------------------------------
     | Application Namespace
@@ -142,5 +143,4 @@ return [
         'resource' => \Blueprint\Generators\Statements\ResourceGenerator::class,
         'view' => \Blueprint\Generators\Statements\ViewGenerator::class,
     ],
-
 ];

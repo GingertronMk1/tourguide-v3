@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\ActivityLog;
@@ -13,10 +15,7 @@ class ActivityLogControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @test
-     */
-    public function index_displays_view(): void
+    public function testIndexDisplaysView(): void
     {
         $activityLogs = ActivityLog::factory()->count(3)->create();
 
@@ -27,11 +26,7 @@ class ActivityLogControllerTest extends TestCase
         $response->assertViewHas('activityLogs');
     }
 
-
-    /**
-     * @test
-     */
-    public function show_displays_view(): void
+    public function testShowDisplaysView(): void
     {
         $activityLog = ActivityLog::factory()->create();
 

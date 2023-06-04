@@ -11,15 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('activity_logs', function (Blueprint $table) {
             $table->id();
             $table->string('event_type');
             $table->json('old_data');
             $table->json('new_data');
+            $table->foreignId('user_id')->constrained();
             $table->unsignedBigInteger('loggable_id');
             $table->string('loggable_type');
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

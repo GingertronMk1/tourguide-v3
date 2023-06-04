@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\DealType;
@@ -13,12 +15,11 @@ use Tests\TestCase;
  */
 class DealTypeControllerTest extends TestCase
 {
-    use AdditionalAssertions, RefreshDatabase, WithFaker;
+    use AdditionalAssertions;
+    use RefreshDatabase;
+    use WithFaker;
 
-    /**
-     * @test
-     */
-    public function index_displays_view(): void
+    public function testIndexDisplaysView(): void
     {
         $dealTypes = DealType::factory()->count(3)->create();
 
@@ -29,11 +30,7 @@ class DealTypeControllerTest extends TestCase
         $response->assertViewHas('dealTypes');
     }
 
-
-    /**
-     * @test
-     */
-    public function create_displays_view(): void
+    public function testCreateDisplaysView(): void
     {
         $response = $this->get(route('deal-type.create'));
 
@@ -41,11 +38,7 @@ class DealTypeControllerTest extends TestCase
         $response->assertViewIs('dealType.create');
     }
 
-
-    /**
-     * @test
-     */
-    public function store_uses_form_request_validation(): void
+    public function testStoreUsesFormRequestValidation(): void
     {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\DealTypeController::class,
@@ -54,16 +47,16 @@ class DealTypeControllerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function store_saves_and_redirects(): void
+    public function testStoreSavesAndRedirects(): void
     {
         $name = $this->faker->name;
-
-        $response = $this->post(route('deal-type.store'), [
-            'name' => $name,
-        ]);
+$description = $this->faker->paragraph;
+$notes = $this->faker->paragraph;
+$response = $this->post(route('deal-type.store'), [
+    'name' => $name,
+    'description' => $description,
+    'notes' => $notes,
+]);
 
         $dealTypes = DealType::query()
             ->where('name', $name)
@@ -75,11 +68,7 @@ class DealTypeControllerTest extends TestCase
         $response->assertSessionHas('dealType.id', $dealType->id);
     }
 
-
-    /**
-     * @test
-     */
-    public function show_displays_view(): void
+    public function testShowDisplaysView(): void
     {
         $dealType = DealType::factory()->create();
 
@@ -90,11 +79,7 @@ class DealTypeControllerTest extends TestCase
         $response->assertViewHas('dealType');
     }
 
-
-    /**
-     * @test
-     */
-    public function edit_displays_view(): void
+    public function testEditDisplaysView(): void
     {
         $dealType = DealType::factory()->create();
 
@@ -105,11 +90,7 @@ class DealTypeControllerTest extends TestCase
         $response->assertViewHas('dealType');
     }
 
-
-    /**
-     * @test
-     */
-    public function update_uses_form_request_validation(): void
+    public function testUpdateUsesFormRequestValidation(): void
     {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\DealTypeController::class,
@@ -118,17 +99,17 @@ class DealTypeControllerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function update_redirects(): void
+    public function testUpdateRedirects(): void
     {
         $dealType = DealType::factory()->create();
         $name = $this->faker->name;
-
-        $response = $this->put(route('deal-type.update', $dealType), [
-            'name' => $name,
-        ]);
+$description = $this->faker->paragraph;
+$notes = $this->faker->paragraph;
+$response = $this->put(route('deal-type.update', $dealType), [
+    'name' => $name,
+    'description' => $description,
+    'notes' => $notes,
+]);
 
         $dealType->refresh();
 
@@ -138,11 +119,7 @@ class DealTypeControllerTest extends TestCase
         $this->assertEquals($name, $dealType->name);
     }
 
-
-    /**
-     * @test
-     */
-    public function destroy_deletes_and_redirects(): void
+    public function testDestroyDeletesAndRedirects(): void
     {
         $dealType = DealType::factory()->create();
 

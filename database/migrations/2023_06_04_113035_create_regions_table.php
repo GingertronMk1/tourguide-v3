@@ -11,15 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('venue_types', function (Blueprint $table) {
+        Schema::disableForeignKeyConstraints();
+
+        Schema::create('regions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
             $table->text('notes')->nullable();
             $table->unsignedInteger('system')->nullable()->unique();
+            $table->foreignId('area_id')->constrained();
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -27,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('venue_types');
+        Schema::dropIfExists('regions');
     }
 };

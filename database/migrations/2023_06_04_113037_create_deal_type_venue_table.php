@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('access_equipment_venue', function (Blueprint $table) {
-            $table->foreignId('access_equipment_id');
+        Schema::disableForeignKeyConstraints();
+
+        Schema::create('deal_type_venue', function (Blueprint $table) {
+            $table->foreignId('deal_type_id');
             $table->foreignId('venue_id');
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('access_equipment_venue');
+        Schema::dropIfExists('deal_type_venue');
     }
 };

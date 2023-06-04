@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\ActivityLog;
+use App\Models\User;
 use App\Models\Venue;
 
 class ActivityLogFactory extends Factory
@@ -25,6 +26,7 @@ class ActivityLogFactory extends Factory
             'event_type' => $this->faker->word,
             'old_data' => '{}',
             'new_data' => '{}',
+            'user_id' => User::factory(),
             'loggable_id' => 1,
             'loggable_type' => Venue::class
         ];

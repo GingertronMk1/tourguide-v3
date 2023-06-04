@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,8 +30,21 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
+Route::resource('activity-log', App\Http\Controllers\ActivityLogController::class)->only('index', 'show');
+
+Route::resource('deal-type', App\Http\Controllers\DealTypeController::class);
+
+Route::resource('access-equipment', App\Http\Controllers\AccessEquipmentController::class);
+
+Route::resource('venue-type', App\Http\Controllers\VenueTypeController::class);
+
+Route::resource('area', App\Http\Controllers\AreaController::class);
+
+Route::resource('region', App\Http\Controllers\RegionController::class);
+
+Route::resource('venue', App\Http\Controllers\VenueController::class);
 
 Route::resource('activity-log', App\Http\Controllers\ActivityLogController::class)->only('index', 'show');
 

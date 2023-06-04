@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\Area;
 use App\Models\Region;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -13,12 +16,11 @@ use Tests\TestCase;
  */
 class RegionControllerTest extends TestCase
 {
-    use AdditionalAssertions, RefreshDatabase, WithFaker;
+    use AdditionalAssertions;
+    use RefreshDatabase;
+    use WithFaker;
 
-    /**
-     * @test
-     */
-    public function index_displays_view(): void
+    public function testIndexDisplaysView(): void
     {
         $regions = Region::factory()->count(3)->create();
 
@@ -29,11 +31,7 @@ class RegionControllerTest extends TestCase
         $response->assertViewHas('regions');
     }
 
-
-    /**
-     * @test
-     */
-    public function create_displays_view(): void
+    public function testCreateDisplaysView(): void
     {
         $response = $this->get(route('region.create'));
 
@@ -41,11 +39,7 @@ class RegionControllerTest extends TestCase
         $response->assertViewIs('region.create');
     }
 
-
-    /**
-     * @test
-     */
-    public function store_uses_form_request_validation(): void
+    public function testStoreUsesFormRequestValidation(): void
     {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\RegionController::class,
@@ -54,19 +48,25 @@ class RegionControllerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function store_saves_and_redirects(): void
+    public function testStoreSavesAndRedirects(): void
     {
         $name = $this->faker->name;
+        $description = $this->faker->paragraph;
+        $notes = $this->faker->paragraph;
+        $area = Area::factory()->create();
 
         $response = $this->post(route('region.store'), [
             'name' => $name,
+            'area_id' => $area->id,
+            'description' => $description,
+            'notes' => $notes,
         ]);
 
         $regions = Region::query()
             ->where('name', $name)
+            ->where('description', $description)
+            ->where('notes', $notes)
+            ->where('area_id', $area->id)
             ->get();
         $this->assertCount(1, $regions);
         $region = $regions->first();
@@ -75,11 +75,7 @@ class RegionControllerTest extends TestCase
         $response->assertSessionHas('region.id', $region->id);
     }
 
-
-    /**
-     * @test
-     */
-    public function show_displays_view(): void
+    public function testShowDisplaysView(): void
     {
         $region = Region::factory()->create();
 
@@ -90,11 +86,7 @@ class RegionControllerTest extends TestCase
         $response->assertViewHas('region');
     }
 
-
-    /**
-     * @test
-     */
-    public function edit_displays_view(): void
+    public function testEditDisplaysView(): void
     {
         $region = Region::factory()->create();
 
@@ -105,11 +97,7 @@ class RegionControllerTest extends TestCase
         $response->assertViewHas('region');
     }
 
-
-    /**
-     * @test
-     */
-    public function update_uses_form_request_validation(): void
+    public function testUpdateUsesFormRequestValidation(): void
     {
         $this->assertActionUsesFormRequest(
             \App\Http\Controllers\RegionController::class,
@@ -118,16 +106,19 @@ class RegionControllerTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function update_redirects(): void
+    public function testUpdateRedirects(): void
     {
         $region = Region::factory()->create();
         $name = $this->faker->name;
+        $description = $this->faker->paragraph;
+        $notes = $this->faker->paragraph;
+        $area = Area::factory()->create();
 
         $response = $this->put(route('region.update', $region), [
             'name' => $name,
+            'area_id' => $area->id,
+            'description' => $description,
+            'notes' => $notes,
         ]);
 
         $region->refresh();
@@ -136,13 +127,10 @@ class RegionControllerTest extends TestCase
         $response->assertSessionHas('region.id', $region->id);
 
         $this->assertEquals($name, $region->name);
+        $this->assertEquals($area->id, $region->area_id);
     }
 
-
-    /**
-     * @test
-     */
-    public function destroy_deletes_and_redirects(): void
+    public function testDestroyDeletesAndRedirects(): void
     {
         $region = Region::factory()->create();
 
