@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -26,8 +28,8 @@ class CreateTraitCommand extends Command
     public function handle()
     {
         $traitName = $this->argument('traitName');
-        $path = app_path('Traits/' . $traitName);
-        $namespacedClass = 'App\\Traits\\' . str_replace('/', '\\', $traitName);
+        $path = app_path('Traits/'.$traitName);
+        $namespacedClass = 'App\\Traits\\'.str_replace('/', '\\', $traitName);
 
         $namespacedClassArr = explode('\\', $namespacedClass);
 

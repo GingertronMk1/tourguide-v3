@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Traits\Searchable;
+use Illuminate\Console\Command;
 
 class IndexSearchables extends Command
 {
@@ -32,9 +34,8 @@ class IndexSearchables extends Command
         $autoloadKeys = array_keys($autoload);
         $models = array_filter(
             $autoloadKeys,
-            fn(string $str) =>
-                str_starts_with($str, 'App\\Models\\') &&
-                in_array(Searchable::class, class_uses($str))
+            fn (string $str) => str_starts_with($str, 'App\\Models\\') &&
+                in_array(Searchable::class, class_uses($str), true)
         );
         $this->table(
             ['Class'],

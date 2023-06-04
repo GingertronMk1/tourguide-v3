@@ -12,7 +12,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Venue extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
+    use Searchable;
 
     /**
      * The attributes that are mass assignable.
