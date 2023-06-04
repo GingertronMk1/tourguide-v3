@@ -29,7 +29,7 @@ class AccessEquipmentController extends Controller
 
         $request->session()->flash('accessEquipment.id', $accessEquipment->id);
 
-        return redirect()->route('accessEquipment.index');
+        return redirect()->route('access-equipment.index');
     }
 
     public function show(Request $request, AccessEquipment $accessEquipment): View
@@ -48,13 +48,13 @@ class AccessEquipmentController extends Controller
 
         $request->session()->flash('accessEquipment.id', $accessEquipment->id);
 
-        return redirect()->route('accessEquipment.index');
+        return redirect()->route('access-equipment.index');
     }
 
     public function destroy(Request $request, AccessEquipment $accessEquipment): RedirectResponse
     {
         $accessEquipment->delete();
 
-        return redirect()->route('accessEquipment.index');
+        return redirect()->route('access-equipment.index');
     }
 }

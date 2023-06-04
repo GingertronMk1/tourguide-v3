@@ -29,7 +29,7 @@ class VenueTypeController extends Controller
 
         $request->session()->flash('venueType.id', $venueType->id);
 
-        return redirect()->route('venueType.index');
+        return redirect()->route('venue-type.index');
     }
 
     public function show(Request $request, VenueType $venueType): View
@@ -48,13 +48,13 @@ class VenueTypeController extends Controller
 
         $request->session()->flash('venueType.id', $venueType->id);
 
-        return redirect()->route('venueType.index');
+        return redirect()->route('venue-type.index');
     }
 
     public function destroy(Request $request, VenueType $venueType): RedirectResponse
     {
         $venueType->delete();
 
-        return redirect()->route('venueType.index');
+        return redirect()->route('venue-type.index');
     }
 }

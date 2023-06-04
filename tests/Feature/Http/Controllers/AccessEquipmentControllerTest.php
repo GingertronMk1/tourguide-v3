@@ -71,7 +71,7 @@ class AccessEquipmentControllerTest extends TestCase
         $this->assertCount(1, $accessEquipments);
         $accessEquipment = $accessEquipments->first();
 
-        $response->assertRedirect(route('accessEquipment.index'));
+        $response->assertRedirect(route('access-equipment.index'));
         $response->assertSessionHas('accessEquipment.id', $accessEquipment->id);
     }
 
@@ -132,7 +132,7 @@ class AccessEquipmentControllerTest extends TestCase
 
         $accessEquipment->refresh();
 
-        $response->assertRedirect(route('accessEquipment.index'));
+        $response->assertRedirect(route('access-equipment.index'));
         $response->assertSessionHas('accessEquipment.id', $accessEquipment->id);
 
         $this->assertEquals($name, $accessEquipment->name);
@@ -148,7 +148,7 @@ class AccessEquipmentControllerTest extends TestCase
 
         $response = $this->delete(route('access-equipment.destroy', $accessEquipment));
 
-        $response->assertRedirect(route('accessEquipment.index'));
+        $response->assertRedirect(route('access-equipment.index'));
 
         $this->assertSoftDeleted($accessEquipment);
     }

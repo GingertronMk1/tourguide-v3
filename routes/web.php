@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-Route::resource('activity-log', App\Http\Controllers\ActivityLogController::class);
+Route::resource('activity-log', App\Http\Controllers\ActivityLogController::class)->only('index', 'show');
 
 Route::resource('deal-type', App\Http\Controllers\DealTypeController::class);
 

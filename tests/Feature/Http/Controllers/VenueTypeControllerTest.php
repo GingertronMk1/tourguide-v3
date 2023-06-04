@@ -71,7 +71,7 @@ class VenueTypeControllerTest extends TestCase
         $this->assertCount(1, $venueTypes);
         $venueType = $venueTypes->first();
 
-        $response->assertRedirect(route('venueType.index'));
+        $response->assertRedirect(route('venue-type.index'));
         $response->assertSessionHas('venueType.id', $venueType->id);
     }
 
@@ -132,7 +132,7 @@ class VenueTypeControllerTest extends TestCase
 
         $venueType->refresh();
 
-        $response->assertRedirect(route('venueType.index'));
+        $response->assertRedirect(route('venue-type.index'));
         $response->assertSessionHas('venueType.id', $venueType->id);
 
         $this->assertEquals($name, $venueType->name);
@@ -148,7 +148,7 @@ class VenueTypeControllerTest extends TestCase
 
         $response = $this->delete(route('venue-type.destroy', $venueType));
 
-        $response->assertRedirect(route('venueType.index'));
+        $response->assertRedirect(route('venue-type.index'));
 
         $this->assertSoftDeleted($venueType);
     }
