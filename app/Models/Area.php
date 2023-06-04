@@ -14,6 +14,16 @@ class Area extends Model
     use HasFactory;
     use SoftDeletes;
 
+    const SYSTEM_NORTH = 'north';
+
+    const SYSTEM_MIDLANDS = 'midlands';
+
+    const SYSTEM_SOUTH_EAST = 'south-east';
+
+    const SYSTEM_SOUTH_WEST = 'south-west';
+
+    const SYSTEM_LONDON = 'london';
+
     /**
      * The attributes that are mass assignable.
      *
